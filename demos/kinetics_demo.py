@@ -5,8 +5,11 @@
 #     "anywidget>=0.9.0",
 #     "numpy",
 #     "scipy",
-#     "tanglechem @ https://raw.githubusercontent.com/ProfLear/TangleChem/main/dist/tanglechem-0.1.0-py3-none-any.whl",
+#     "tanglechem @ https://raw.githubusercontent.com/ProfLear/TangleChem/main/dist/tanglechem-0.2.0-py3-none-any.whl",
 # ]
+#
+# [tool.uv.sources]
+# tanglechem = { path = "..", editable = true }
 # ///
 
 import marimo

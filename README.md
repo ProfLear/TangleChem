@@ -1,46 +1,64 @@
 # TangleChem
 
-Interactive, **"Tangle"-style** chemical kinetics and reaction equations for Python notebooks (`marimo`, Jupyter, VS Code, Colab), inspired by Bret Victor's *Tangle* and `TangleLatex` from [`wigglystuff`](https://github.com/koaning/wigglystuff).
+Interactive, **"Tangle"-style** chemical kinetics and quantum chemistry widgets for Python notebooks (`marimo`, Jupyter, VS Code, Colab), inspired by Bret Victor's *Tangle* and `TangleLatex` from [`wigglystuff`](https://github.com/koaning/wigglystuff).
 
+## Components
+
+### 1. `TangleKinetics` — Chemical Reaction Kinetics
 Define a system of chemical reactions in plain text, and get:
-1. **Interactive chemical equations** where **rate constants** sit directly on the reaction arrows and can be dragged horizontally (or clicked to type an exact value).
-2. **Interactive initial concentrations** (`[A]₀`, `[B]₀`, ...) that can be dragged inline to explore initial-condition sensitivity.
-3. **Live 60fps concentration-vs-time plots** with dashed "before-drag" reference trajectories (`committed_values` vs live `values`), hover inspection, and Python-accessible ODE solutions.
-
-## Quickstart
+- **Interactive chemical equations** where **rate constants** sit directly on the reaction arrows and can be dragged horizontally (or clicked to type an exact value).
+- **Interactive initial concentrations** (`[A]₀`, `[B]₀`, ...) that can be dragged inline.
+- **Live 60fps concentration-vs-time plots** with dashed "before-drag" reference trajectories (`committed_values` vs live `values`), hover inspection, and a toggleable `d[X]/dt` differential rate equation drawer.
 
 ```python
 from tanglechem import TangleKinetics
 
-widget = TangleKinetics(
+TangleKinetics(
     reactions=[
         "A ->[k1] B",
         "B <->[k2, k_2] C",
     ],
     initial_concentrations={"A": 1.0, "B": 0.0, "C": 0.0},
-    rate_constants={
-        "k1": {"value": 0.8, "min_value": 0.0, "max_value": 5.0, "step": 0.05},
-        "k2": {"value": 0.5, "min_value": 0.0, "max_value": 5.0, "step": 0.05},
-        "k_2": {"value": 0.2, "min_value": 0.0, "max_value": 5.0, "step": 0.05},
-    },
+    rate_constants={"k1": 0.8, "k2": 0.4, "k_2": 0.15},
     t_max=10.0,
 )
-widget
 ```
 
-### Reaction DSL Syntax
+### 2. `TangleSchrodinger` — 1D Time-Independent Schrödinger Equation
+Define any **piecewise** or **algebraic** 1D potential energy curve $V(x)$, and get:
+- **Interactive potential equation $V(x)$** where parameters (well width $L$, barrier height $V_0$, force constant $k$, barrier thickness $a$, particle mass $m$) are embedded directly inside the formula as draggable Tangle controls.
+- **Live 60fps quantum energy-level & wavefunction plot** showing quantized eigenvalues $E_n$ and wavefunctions $\psi_n(x)$ (or probability densities $|\psi_n(x)|^2$) sitting on their energy baselines, with dashed pre-drag ghost comparison.
 
-- **Irreversible reaction:** `"A + B ->[k1] C"` or `"2 A ->[k_dimer] A2"`
-- **Reversible reaction:** `"A <->[kf, kr] B"` or `"A <=>[k1, k_1] B + C"`
-- **Multiple reactions:** Pass a list of strings or a multiline string separated by newlines or `;`.
-- **Shorthand numeric values:** You can pass floats directly in `rate_constants={"k1": 0.8}` or full parameter specs (`{"value": 0.8, "min_value": 0.0, "max_value": 5.0, "step": 0.05, "digits": 2}`).
+```python
+from tanglechem import TangleSchrodinger
 
-## Running the Marimo Demo
+# Piecewise potential (Particle in a Box / Finite Well / Double Well)
+TangleSchrodinger(
+    potential=[
+        "0 for -L/2 <= x <= L/2",
+        "V0 otherwise",
+    ],
+    parameters={"L": 2.4, "V0": 10.0},
+    n_states=4,
+)
 
-- **Try it in your browser (Molab WASM):**
+# Algebraic potential (Harmonic Oscillator, Morse, Quartic Double Well)
+TangleSchrodinger(
+    potential="0.5 * k * (x - x0)^2",
+    parameters={"k": 2.5, "x0": 0.0},
+    n_states=5,
+)
+```
+
+## Live Demos (Molab WASM & Local)
+
+- **Reaction Kinetics Demo (Molab WASM):**
   [https://molab.marimo.io/github/ProfLear/TangleChem/blob/main/demos/kinetics_demo.py/wasm](https://molab.marimo.io/github/ProfLear/TangleChem/blob/main/demos/kinetics_demo.py/wasm)
+- **1D Schrödinger Equation Demo (Molab WASM):**
+  [https://molab.marimo.io/github/ProfLear/TangleChem/blob/main/demos/schrodinger_demo.py/wasm](https://molab.marimo.io/github/ProfLear/TangleChem/blob/main/demos/schrodinger_demo.py/wasm)
 
 - **Run locally with `uv`:**
   ```bash
   uv run marimo edit demos/kinetics_demo.py
+  uv run marimo edit demos/schrodinger_demo.py
   ```

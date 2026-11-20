@@ -1,0 +1,356 @@
+/* TangleChem: Interactive 1D Schrödinger Equation Widget Stylesheet */
+
+.ts-widget-host {
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+  line-height: 1.45;
+  margin: 0.35rem 0;
+}
+
+body.ts-global-dragging,
+body.ts-global-dragging * {
+  cursor: ew-resize !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+
+.ts-container {
+  --ts-bg: #ffffff;
+  --ts-bg-subtle: #f7f9fc;
+  --ts-bg-eq: #fbfcfe;
+  --ts-border: #e2e8f0;
+  --ts-text: #1e293b;
+  --ts-text-muted: #64748b;
+  --ts-grid: #edf2f7;
+  --ts-axis: #cbd5e1;
+  --ts-pot-color: #334155;
+  --ts-wall-bg: rgba(148, 163, 184, 0.16);
+  --ts-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+
+  background: var(--ts-bg);
+  color: var(--ts-text);
+  border: 1px solid var(--ts-border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: var(--ts-shadow);
+  max-width: 760px;
+}
+
+.ts-container.ts-dark {
+  --ts-bg: #161920;
+  --ts-bg-subtle: #1e222b;
+  --ts-bg-eq: #1a1e26;
+  --ts-border: #2e3440;
+  --ts-text: #e2e8f0;
+  --ts-text-muted: #94a3b8;
+  --ts-grid: #232834;
+  --ts-axis: #475569;
+  --ts-pot-color: #cbd5e1;
+  --ts-wall-bg: rgba(148, 163, 184, 0.14);
+  --ts-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Header & Toolbar */
+.ts-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--ts-border);
+  margin-bottom: 12px;
+}
+
+.ts-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ts-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--ts-bg-subtle);
+  border: 1px solid var(--ts-border);
+  color: var(--ts-text);
+}
+
+.ts-subtitle {
+  font-size: 0.84rem;
+  font-family: "KaTeX_Main", "Cambria Math", Georgia, serif;
+  color: var(--ts-text-muted);
+}
+
+.ts-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ts-btn {
+  appearance: none;
+  background: var(--ts-bg-subtle);
+  color: var(--ts-text);
+  border: 1px solid var(--ts-border);
+  border-radius: 6px;
+  padding: 3px 9px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, opacity 0.12s;
+}
+
+.ts-btn:hover:not(:disabled) {
+  border-color: var(--ts-text-muted);
+}
+
+.ts-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.ts-btn-active {
+  background: #246bce;
+  color: #ffffff;
+  border-color: #246bce;
+}
+
+.ts-nstates-control {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.78rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--ts-bg-subtle);
+  border: 1px dashed var(--ts-border);
+  cursor: ew-resize;
+  user-select: none;
+}
+
+.ts-nstates-label {
+  color: var(--ts-text-muted);
+  margin-right: 3px;
+}
+
+.ts-nstates-val {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  border-bottom: 1.5px dotted var(--ts-text-muted);
+}
+
+/* Potential Equation V(x) Panel */
+.ts-equation-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 16px;
+  background: var(--ts-bg-eq);
+  border: 1px solid var(--ts-border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+}
+
+.ts-equation-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.12rem;
+  font-family: "KaTeX_Main", "Cambria Math", "Latin Modern Math", Georgia, serif;
+}
+
+.ts-eq-lhs {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ts-math-var {
+  font-style: italic;
+}
+
+.ts-cases-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ts-cases-brace {
+  font-size: 2.3rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--ts-text-muted);
+  transform: scaleY(1.15);
+  user-select: none;
+}
+
+.ts-cases-grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 18px;
+  row-gap: 6px;
+  align-items: baseline;
+}
+
+.ts-case-val {
+  font-weight: 500;
+}
+
+.ts-case-cond {
+  color: var(--ts-text-muted);
+  font-size: 0.98rem;
+}
+
+/* Tangle Draggable Pills */
+.ts-tangle-pill {
+  --ts-param-color: #246bce;
+  display: inline-flex;
+  align-items: baseline;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.86rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--ts-param-color);
+  background: color-mix(in srgb, var(--ts-param-color) 11%, transparent);
+  border-bottom: 2px dotted var(--ts-param-color);
+  border-radius: 5px 5px 2px 2px;
+  padding: 1px 6px;
+  margin: 0 2px;
+  cursor: ew-resize;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background 0.12s, box-shadow 0.12s;
+  white-space: nowrap;
+}
+
+.ts-tangle-pill:hover,
+.ts-tangle-pill.ts-is-active {
+  background: color-mix(in srgb, var(--ts-param-color) 22%, transparent);
+  border-bottom-style: solid;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ts-param-color) 20%, transparent);
+}
+
+.ts-tangle-sym {
+  font-weight: 600;
+  opacity: 0.92;
+}
+
+.ts-tangle-val {
+  font-weight: 700;
+}
+
+.ts-tangle-input {
+  width: 72px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--ts-param-color, #246bce);
+  background: var(--ts-bg);
+  border: 1.5px solid var(--ts-param-color, #246bce);
+  border-radius: 5px;
+  padding: 1px 5px;
+  outline: none;
+}
+
+/* SVG Plot */
+.ts-plot-slot {
+  width: 100%;
+}
+
+.ts-plot-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  user-select: none;
+}
+
+.ts-grid-line {
+  stroke: var(--ts-grid);
+  stroke-width: 1;
+}
+
+.ts-plot-frame {
+  stroke: var(--ts-axis);
+  stroke-width: 1.2;
+}
+
+.ts-wall-fill {
+  fill: var(--ts-wall-bg);
+}
+
+.ts-potential-line {
+  stroke: var(--ts-pot-color);
+  stroke-width: 2.25;
+  stroke-linejoin: round;
+}
+
+.ts-potential-ghost {
+  stroke: var(--ts-pot-color);
+  stroke-width: 1.5;
+  stroke-dasharray: 4, 4;
+  stroke-opacity: 0.45;
+}
+
+.ts-tick-label {
+  fill: var(--ts-text-muted);
+  font-size: 11px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+.ts-axis-title {
+  fill: var(--ts-text-muted);
+  font-size: 11.5px;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.ts-level-label {
+  font-size: 11px;
+  font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+.ts-crosshair-line {
+  stroke: var(--ts-text-muted);
+  stroke-width: 1.2;
+  stroke-dasharray: 3, 3;
+}
+
+.ts-plot-readout {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  min-height: 24px;
+  padding: 6px 8px 2px;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ts-text);
+}
+
+.ts-readout-pos,
+.ts-readout-gap {
+  font-weight: 700;
+  color: var(--ts-text-muted);
+}
+
+.ts-readout-sp {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ts-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
