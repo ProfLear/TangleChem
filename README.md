@@ -37,6 +37,10 @@ widget
 
 ## Running the Marimo Demo
 
-```bash
-uv run marimo edit demos/kinetics_demo.py
-```
+- **Try it in your browser (Molab WASM):**
+  [https://molab.marimo.io/github/ProfLear/TangleChem/blob/main/demos/kinetics_demo.py/wasm](https://molab.marimo.io/github/ProfLear/TangleChem/blob/main/demos/kinetics_demo.py/wasm)
+
+- **Run locally with `uv`:**
+  ```bash
+  uv run marimo edit demos/kinetics_demo.py
+  ```
