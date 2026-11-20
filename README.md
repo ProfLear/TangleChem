@@ -2,9 +2,20 @@
 
 Interactive, **"Tangle"-style** chemical kinetics and quantum chemistry widgets for Python notebooks (`marimo`, Jupyter, VS Code, Colab), inspired by Bret Victor's *Tangle* and `TangleLatex` from [`wigglystuff`](https://github.com/koaning/wigglystuff).
 
+## Live Browser Demos (Molab WASM)
+
+| Component | Description | Live Molab WASM Notebook |
+| :--- | :--- | :--- |
+| **`TangleKinetics`** | Interactive reaction networks & mass-action ODE kinetics | [Launch Kinetics Demo (WASM)](https://molab.marimo.io/github/ProfLear/TangleChem/blob/main/demos/kinetics_demo.py/wasm) |
+| **`TangleSchrodinger`** | Interactive 1D potential wells, eigenstates & wavefunctions | [Launch 1D Schrödinger Demo (WASM)](https://molab.marimo.io/github/ProfLear/TangleChem/blob/main/demos/schrodinger_demo.py/wasm) |
+
+---
+
 ## Components
 
 ### 1. `TangleKinetics` — Chemical Reaction Kinetics
+[**Try in Molab WASM →**](https://molab.marimo.io/github/ProfLear/TangleChem/blob/main/demos/kinetics_demo.py/wasm)
+
 Define a system of chemical reactions in plain text, and get:
 - **Interactive chemical equations** where **rate constants** sit directly on the reaction arrows and can be dragged horizontally (or clicked to type an exact value).
 - **Interactive initial concentrations** (`[A]₀`, `[B]₀`, ...) that can be dragged inline.
@@ -25,6 +36,8 @@ TangleKinetics(
 ```
 
 ### 2. `TangleSchrodinger` — 1D Time-Independent Schrödinger Equation
+[**Try in Molab WASM →**](https://molab.marimo.io/github/ProfLear/TangleChem/blob/main/demos/schrodinger_demo.py/wasm)
+
 Define any **piecewise** or **algebraic** 1D potential energy curve $V(x)$, and get:
 - **Interactive potential equation $V(x)$** where parameters (well width $L$, barrier height $V_0$, force constant $k$, barrier thickness $a$, particle mass $m$) are embedded directly inside the formula as draggable Tangle controls.
 - **Live 60fps quantum energy-level & wavefunction plot** showing quantized eigenvalues $E_n$ and wavefunctions $\psi_n(x)$ (or probability densities $|\psi_n(x)|^2$) sitting on their energy baselines, with dashed pre-drag ghost comparison.
@@ -50,15 +63,9 @@ TangleSchrodinger(
 )
 ```
 
-## Live Demos (Molab WASM & Local)
+## Running Locally with `uv`
 
-- **Reaction Kinetics Demo (Molab WASM):**
-  [https://molab.marimo.io/github/ProfLear/TangleChem/blob/main/demos/kinetics_demo.py/wasm](https://molab.marimo.io/github/ProfLear/TangleChem/blob/main/demos/kinetics_demo.py/wasm)
-- **1D Schrödinger Equation Demo (Molab WASM):**
-  [https://molab.marimo.io/github/ProfLear/TangleChem/blob/main/demos/schrodinger_demo.py/wasm](https://molab.marimo.io/github/ProfLear/TangleChem/blob/main/demos/schrodinger_demo.py/wasm)
-
-- **Run locally with `uv`:**
-  ```bash
-  uv run marimo edit demos/kinetics_demo.py
-  uv run marimo edit demos/schrodinger_demo.py
-  ```
+```bash
+uv run marimo edit demos/kinetics_demo.py
+uv run marimo edit demos/schrodinger_demo.py
+```
