@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tanglechem"
+version = "0.1.0"
+description = "Interactive, tangle-style chemical equation and kinetics widgets built on anywidget."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "Benjamin Lear" }
+]
+keywords = ["chemistry", "kinetics", "anywidget", "jupyter", "marimo", "tangle", "interactive"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Jupyter",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Chemistry",
+]
+dependencies = [
+    "anywidget>=0.9.0",
+    "traitlets>=5.0.0",
+    "numpy>=1.22.0",
+    "scipy>=1.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "marimo>=0.9.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/tanglechem"]

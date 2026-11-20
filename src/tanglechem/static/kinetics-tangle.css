@@ -1,0 +1,440 @@
+/* TangleChem: Interactive Tangle-style chemical equations & kinetics stylesheet */
+
+.tc-widget-host {
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+  line-height: 1.45;
+  margin: 0.35rem 0;
+}
+
+body.tc-global-dragging,
+body.tc-global-dragging * {
+  cursor: ew-resize !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+
+.tc-container {
+  --tc-bg: #ffffff;
+  --tc-bg-subtle: #f7f9fc;
+  --tc-bg-eq: #fbfcfe;
+  --tc-border: #e2e8f0;
+  --tc-text: #1e293b;
+  --tc-text-muted: #64748b;
+  --tc-grid: #edf2f7;
+  --tc-axis: #cbd5e1;
+  --tc-pill-bg: rgba(36, 107, 206, 0.08);
+  --tc-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+
+  background: var(--tc-bg);
+  color: var(--tc-text);
+  border: 1px solid var(--tc-border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: var(--tc-shadow);
+  max-width: 760px;
+}
+
+.tc-container.tc-dark {
+  --tc-bg: #161920;
+  --tc-bg-subtle: #1e222b;
+  --tc-bg-eq: #1a1e26;
+  --tc-border: #2e3440;
+  --tc-text: #e2e8f0;
+  --tc-text-muted: #94a3b8;
+  --tc-grid: #232834;
+  --tc-axis: #475569;
+  --tc-pill-bg: rgba(117, 167, 255, 0.12);
+  --tc-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Header & Toolbar */
+.tc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--tc-border);
+  margin-bottom: 12px;
+}
+
+.tc-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tc-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--tc-bg-subtle);
+  border: 1px solid var(--tc-border);
+  color: var(--tc-text);
+}
+
+.tc-subtitle {
+  font-size: 0.8rem;
+  color: var(--tc-text-muted);
+}
+
+.tc-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tc-btn {
+  appearance: none;
+  background: var(--tc-bg-subtle);
+  color: var(--tc-text);
+  border: 1px solid var(--tc-border);
+  border-radius: 6px;
+  padding: 3px 9px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, opacity 0.12s;
+}
+
+.tc-btn:hover:not(:disabled) {
+  border-color: var(--tc-text-muted);
+}
+
+.tc-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.tc-btn-active {
+  background: #246bce;
+  color: #ffffff;
+  border-color: #246bce;
+}
+
+.tc-tmax-control {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.78rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--tc-bg-subtle);
+  border: 1px dashed var(--tc-border);
+  cursor: ew-resize;
+  user-select: none;
+}
+
+.tc-tmax-control:hover {
+  border-color: var(--tc-text-muted);
+}
+
+.tc-tmax-label {
+  color: var(--tc-text-muted);
+  margin-right: 3px;
+}
+
+.tc-tmax-val {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  border-bottom: 1.5px dotted var(--tc-text-muted);
+}
+
+/* Reaction Equations Panel */
+.tc-reactions-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 12px;
+  background: var(--tc-bg-eq);
+  border: 1px solid var(--tc-border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+}
+
+.tc-reaction-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 1.15rem;
+  font-family: "KaTeX_Main", "Cambria Math", "Latin Modern Math", Georgia, serif;
+  min-height: 52px;
+}
+
+.tc-rxn-side {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tc-rxn-plus {
+  color: var(--tc-text-muted);
+  font-weight: 500;
+  padding: 0 2px;
+}
+
+.tc-species-token {
+  display: inline-flex;
+  align-items: baseline;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--tc-sp-color, #246bce) 11%, transparent);
+  color: var(--tc-sp-color, var(--tc-text));
+  font-weight: 600;
+}
+
+.tc-stoich-coeff {
+  font-weight: 700;
+  margin-right: 1px;
+  opacity: 0.9;
+}
+
+/* Reaction Arrow + Rate Constant Tangle Positioning */
+.tc-arrow-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 96px;
+  padding: 0 4px;
+  position: relative;
+}
+
+.tc-arrow-rate-above {
+  margin-bottom: 1px;
+  line-height: 1.1;
+}
+
+.tc-arrow-rate-below {
+  margin-top: 2px;
+  line-height: 1.1;
+}
+
+.tc-arrow-graphic {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  color: var(--tc-text-muted);
+}
+
+.tc-arrow-svg {
+  width: 100%;
+  height: 14px;
+  overflow: visible;
+}
+
+.tc-arrow-reversible .tc-arrow-svg {
+  height: 17px;
+}
+
+/* Tangle Draggable Number Pills */
+.tc-tangle-pill {
+  --tc-param-color: #246bce;
+  display: inline-flex;
+  align-items: baseline;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.84rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--tc-param-color);
+  background: color-mix(in srgb, var(--tc-param-color) 11%, transparent);
+  border-bottom: 2px dotted var(--tc-param-color);
+  border-radius: 5px 5px 2px 2px;
+  padding: 1px 6px;
+  cursor: ew-resize;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background 0.12s, transform 0.08s, box-shadow 0.12s;
+  white-space: nowrap;
+}
+
+.tc-tangle-pill:hover,
+.tc-tangle-pill.tc-is-active {
+  background: color-mix(in srgb, var(--tc-param-color) 22%, transparent);
+  border-bottom-style: solid;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--tc-param-color) 20%, transparent);
+}
+
+.tc-tangle-sym {
+  font-weight: 600;
+  opacity: 0.92;
+}
+
+.tc-tangle-val {
+  font-weight: 700;
+}
+
+.tc-tangle-input {
+  width: 72px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--tc-param-color, #246bce);
+  background: var(--tc-bg);
+  border: 1.5px solid var(--tc-param-color, #246bce);
+  border-radius: 5px;
+  padding: 1px 5px;
+  outline: none;
+}
+
+/* Differential Rate Equations (ODE) Panel */
+.tc-ode-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  background: var(--tc-bg-subtle);
+  border: 1px solid var(--tc-border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: "KaTeX_Main", "Cambria Math", Georgia, serif;
+}
+
+.tc-ode-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.tc-ode-lhs {
+  margin-right: 4px;
+}
+
+.tc-ode-factor {
+  margin-left: 2px;
+}
+
+/* Initial Concentrations Bar */
+.tc-ic-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 10px;
+  background: var(--tc-bg-subtle);
+  border: 1px solid var(--tc-border);
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.tc-ic-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--tc-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-right: 2px;
+}
+
+.tc-ic-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: opacity 0.15s;
+}
+
+.tc-ic-chip.tc-ic-hidden {
+  opacity: 0.45;
+}
+
+.tc-sp-toggle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--tc-sp-color, #246bce);
+  background: var(--tc-sp-color, #246bce);
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.tc-ic-hidden .tc-sp-toggle {
+  background: transparent;
+}
+
+/* SVG Plot */
+.tc-plot-slot {
+  width: 100%;
+}
+
+.tc-plot-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  user-select: none;
+}
+
+.tc-grid-line {
+  stroke: var(--tc-grid);
+  stroke-width: 1;
+}
+
+.tc-axis-line {
+  stroke: var(--tc-axis);
+  stroke-width: 1.25;
+}
+
+.tc-tick-label {
+  fill: var(--tc-text-muted);
+  font-size: 11px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+.tc-axis-title {
+  fill: var(--tc-text-muted);
+  font-size: 11.5px;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.tc-crosshair-line {
+  stroke: var(--tc-text-muted);
+  stroke-width: 1.2;
+  stroke-dasharray: 3, 3;
+}
+
+.tc-plot-readout {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  min-height: 24px;
+  padding: 6px 8px 2px;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--tc-text);
+}
+
+.tc-readout-hint {
+  color: var(--tc-text-muted);
+  font-size: 0.75rem;
+}
+
+.tc-readout-time {
+  font-weight: 700;
+  color: var(--tc-text-muted);
+}
+
+.tc-readout-sp {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tc-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
